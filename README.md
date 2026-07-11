@@ -948,6 +948,120 @@ Developed an enterprise-level Supply Chain Crisis Simulator where users manage o
 - Leadership strategy
 - React-based single-page application development
 
+- ## 📅 Day 30 – Supply Chain Optimizer
+**Project:** Supply Chain Optimizer
+
+### 🚀 Overview
+Built an interactive Supply Chain Optimizer that simulates real-world logistics and operational decision-making. Users optimize sourcing, inventory, transportation, warehousing, and sustainability while balancing business trade-offs.
+
+### 🛠️ Technologies
+- HTML5
+- CSS3
+- JavaScript
+- React (CDN)
+
+### 📚 Key Learnings
+- Understood supply chain optimization strategies.
+- Balanced cost, speed, inventory, and customer satisfaction.
+- Explored sourcing, warehousing, transportation, and logistics.
+- Practiced enterprise decision-making through interactive simulations.
+
+---
+
+## 📅 Day 31 – AI Supply Chain Control Tower
+**Project:** AI Supply Chain Control Tower
+
+### 🚀 Overview
+Developed an enterprise-style Supply Chain Control Tower dashboard to monitor operational disruptions, prioritize alerts, and maintain business performance using real-time KPI tracking.
+
+### 🛠️ Technologies
+- HTML5
+- CSS3
+- JavaScript
+
+### 📚 Key Learnings
+- Learned how control towers monitor enterprise operations.
+- Managed multiple operational alerts simultaneously.
+- Improved KPI-based decision making.
+- Understood real-time supply chain monitoring.
+
+---
+
+## 📅 Day 32 – Marketing Strategy Simulator
+**Project:** Marketing Strategy Simulator
+
+### 🚀 Overview
+Built an interactive marketing strategy simulator that guides users through audience analysis, platform selection, content planning, and growth strategy development.
+
+### 🛠️ Technologies
+- HTML5
+- CSS3
+- JavaScript
+
+### 📚 Key Learnings
+- Learned audience-first marketing strategy.
+- Selected suitable marketing platforms.
+- Built content pillar strategies.
+- Generated structured marketing roadmaps.
+
+---
+
+## 📅 Day 33 – Media Integrity Analyzer
+**Project:** Media Integrity Analyzer
+
+### 🚀 Overview
+Created an educational application that teaches media literacy by analyzing misleading headlines, emotional manipulation, and information bias through interactive challenges.
+
+### 🛠️ Technologies
+- HTML5
+- CSS3
+- JavaScript
+
+### 📚 Key Learnings
+- Evaluated headline accuracy.
+- Identified emotional manipulation techniques.
+- Improved critical thinking skills.
+- Learned responsible media evaluation.
+
+---
+
+## 📅 Day 34 – Marketing Detective
+**Project:** Marketing Detective
+
+### 🚀 Overview
+Built a detective-style marketing analytics simulator where campaign evidence is analyzed to identify marketing mistakes and improve strategic decision-making.
+
+### 🛠️ Technologies
+- HTML5
+- CSS3
+- JavaScript
+- React (CDN)
+
+### 📚 Key Learnings
+- Investigated marketing campaigns using evidence.
+- Connected customer behavior with campaign performance.
+- Improved analytical and problem-solving skills.
+- Learned data-driven marketing evaluation.
+
+---
+
+## 📅 Day 35 – Prompt Puzzle
+**Project:** Prompt Puzzle
+
+### 🚀 Overview
+Developed a gamified Prompt Engineering simulator that teaches prompt optimization through interactive challenges, output comparison, and prompt refinement.
+
+### 🛠️ Technologies
+- HTML5
+- CSS3
+- JavaScript
+
+### 📚 Key Learnings
+- Learned prompt engineering fundamentals.
+- Improved prompts using role, context, constraints, and formatting.
+- Compared weak and optimized prompts.
+- Understood how better prompts generate higher-quality AI responses.
+
 ## 🎯 Challenge
 
 **ABTalks 60-Day Claude AI Mastery Challenge**
@@ -983,6 +1097,12 @@ Continuously building AI-powered projects to strengthen practical skills in AI, 
 ✅ Day 27 Completed
 ✅ Day 28 Completed
 ✅ Day 29 Completed
+✅ Day 30 Completed
+✅ Day 31 Completed
+✅ Day 32 Completed
+✅ Day 33 Completed
+✅ Day 34 Completed
+✅ Day 35 Completed
   
    
 
