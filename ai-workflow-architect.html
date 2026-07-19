@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Workflow Architect — Idea Validation for Solo Founders</title>
+<style>
+:root{
+  --ink:#0d1117;
+  --ink-2:#141b24;
+  --panel:#171f2a;
+  --panel-2:#1d2733;
+  --line:rgba(230,236,245,0.09);
+  --line-strong:rgba(230,236,245,0.18);
+  --paper:#e9ecf1;
+  --paper-dim:#9aa7b8;
+  --paper-faint:#6b7684;
+  --amber:#e8a33d;
+  --amber-dim:#8a6423;
+  --signal:#5ecb9b;
+  --signal-dim:#2a4a3d;
+  --risk:#e2645a;
+  --font-display:'Fraunces', Georgia, serif;
+  --font-body:'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:'JetBrains Mono', 'Courier New', monospace;
+  --radius:10px;
+}
+@font-face{font-family:'Fraunces';src:local('Georgia');}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  margin:0;
+  background:
+    radial-gradient(1200px 800px at 15% -10%, rgba(232,163,61,0.06), transparent 60%),
+    radial-gradient(1000px 700px at 100% 0%, rgba(94,203,155,0.05), transparent 55%),
+    var(--ink);
+  color:var(--paper);
+  font-family:var(--font-body);
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--amber);color:#1a1206;}
+a{color:var(--amber);}
+::-webkit-scrollbar{width:10px;}
+::-webkit-scrollbar-track{background:var(--ink);}
+::-webkit-scrollbar-thumb{background:#2a3543;border-radius:6px;}
+
+/* ---------- Top bar ---------- */
+.topbar{
+  position:sticky;top:0;z-index:50;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 28px;
+  background:rgba(13,17,23,0.85);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line);
+}
+.brand{display:flex;align-items:center;gap:10px;font-family:var(--font-mono);font-size:13px;letter-spacing:0.08em;color:var(--paper-dim);text-transform:uppercase;}
+.brand .dot{width:8px;height:8px;border-radius:50%;background:var(--signal);box-shadow:0 0 10px var(--signal);}
+.topbar-actions{display:flex;gap:10px;align-items:center;}
+.btn{
+  font-family:var(--font-mono);font-size:12px;letter-spacing:0.03em;
+  padding:8px 14px;border-radius:7px;border:1px solid var(--line-strong);
+  background:var(--panel-2);color:var(--paper);cursor:pointer;
+  transition:all .15s ease;text-transform:uppercase;
+}
+.btn:hover{border-color:var(--amber);color:var(--amber);}
+.btn.primary{background:var(--amber);color:#1a1206;border-color:var(--amber);font-weight:600;}
+.btn.primary:hover{background:#f2b658;color:#1a1206;}
+
+/* ---------- Hero ---------- */
+.hero{
+  padding:80px 28px 60px;
+  max-width:1180px;margin:0 auto;
+  display:grid;grid-template-columns:1.3fr 0.9fr;gap:60px;align-items:center;
+}
+.eyebrow{font-family:var(--font-mono);font-size:12px;letter-spacing:0.15em;color:var(--amber);text-transform:uppercase;margin-bottom:18px;}
+h1.display{
+  font-family:var(--font-display);
+  font-weight:600;
+  font-size:clamp(2.4rem,4.6vw,4rem);
+  line-height:1.02;
+  margin:0 0 22px;
+  color:var(--paper);
+}
+h1.display em{color:var(--amber);font-style:normal;}
+.hero-sub{color:var(--paper-dim);font-size:16.5px;max-width:520px;margin-bottom:30px;}
+.hero-actions{display:flex;gap:14px;flex-wrap:wrap;}
+
+/* Signature: validation dial */
+.dial-card{
+  background:var(--panel);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:28px;
+  position:relative;
+}
+.dial-label{font-family:var(--font-mono);font-size:11px;color:var(--paper-faint);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:14px;}
+.dial-wrap{display:flex;align-items:center;gap:20px;}
+.dial-num{font-family:var(--font-display);font-size:3.2rem;color:var(--amber);line-height:1;}
+.dial-status{font-family:var(--font-mono);font-size:12.5px;color:var(--paper-dim);margin-top:6px;}
+.dial-bar{flex:1;height:8px;background:var(--panel-2);border-radius:4px;overflow:hidden;border:1px solid var(--line);}
+.dial-fill{height:100%;background:linear-gradient(90deg,var(--amber-dim),var(--amber));width:0%;transition:width .6s cubic-bezier(.4,0,.2,1);}
+.stage-pins{display:flex;gap:6px;margin-top:18px;flex-wrap:wrap;}
+.pin{width:26px;height:26px;border-radius:50%;border:1px solid var(--line-strong);display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:10px;color:var(--paper-faint);background:var(--panel-2);}
+.pin.done{background:var(--signal-dim);border-color:var(--signal);color:var(--signal);}
+
+/* ---------- Sections general ---------- */
+section{max-width:1180px;margin:0 auto;padding:70px 28px;}
+.section-head{margin-bottom:36px;}
+.section-head .eyebrow{margin-bottom:10px;}
+h2.section-title{font-family:var(--font-display);font-size:clamp(1.7rem,2.6vw,2.3rem);margin:0 0 8px;font-weight:600;}
+.section-desc{color:var(--paper-dim);max-width:640px;font-size:15px;}
+
+/* ---------- Diagram (horizontal flow) ---------- */
+.flow-scroll{overflow-x:auto;padding-bottom:14px;}
+.flow{display:flex;gap:0;min-width:max-content;padding:10px 4px;}
+.flow-node{
+  min-width:190px;max-width:210px;
+  background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  padding:16px;cursor:pointer;transition:all .18s ease;position:relative;
+}
+.flow-node:hover{border-color:var(--amber);transform:translateY(-3px);}
+.flow-node.active{border-color:var(--amber);background:var(--panel-2);box-shadow:0 0 0 1px var(--amber);}
+.flow-node .fn-num{font-family:var(--font-mono);font-size:11px;color:var(--amber);}
+.flow-node .fn-title{font-family:var(--font-display);font-size:16px;margin:6px 0 4px;color:var(--paper);}
+.flow-node .fn-time{font-family:var(--font-mono);font-size:10.5px;color:var(--paper-faint);}
+.flow-arrow{display:flex;align-items:center;justify-content:center;min-width:36px;color:var(--paper-faint);font-size:18px;}
+
+/* ---------- Stage detail card ---------- */
+.stage-detail{
+  margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden;
+}
+.stage-detail-head{
+  padding:26px 30px;border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:14px;
+  background:linear-gradient(135deg, rgba(232,163,61,0.05), transparent);
+}
+.stage-detail-head h3{font-family:var(--font-display);font-size:1.6rem;margin:0 0 6px;}
+.stage-meta{display:flex;gap:16px;flex-wrap:wrap;font-family:var(--font-mono);font-size:11.5px;color:var(--paper-faint);}
+.stage-meta span{display:flex;align-items:center;gap:5px;}
+.mark-btn{padding:7px 12px;}
+.mark-btn.done{background:var(--signal-dim);border-color:var(--signal);color:var(--signal);}
+
+.stage-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;}
+.stage-block{padding:22px 30px;border-bottom:1px solid var(--line);}
+.stage-block:nth-child(odd){border-right:1px solid var(--line);}
+.stage-block h4{
+  font-family:var(--font-mono);font-size:11px;text-transform:uppercase;letter-spacing:0.1em;
+  color:var(--amber);margin:0 0 12px;
+}
+.stage-block ul{margin:0;padding-left:18px;color:var(--paper-dim);font-size:14px;}
+.stage-block li{margin-bottom:6px;}
+.stage-block p{margin:0;color:var(--paper-dim);font-size:14px;}
+
+.tool-pills{display:flex;flex-wrap:wrap;gap:8px;}
+.tool-pill{
+  background:var(--panel-2);border:1px solid var(--line-strong);border-radius:20px;
+  padding:6px 12px;font-size:13px;display:flex;align-items:center;gap:6px;
+}
+.tool-pill .why{display:none;}
+.tool-card{background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;margin-bottom:10px;}
+.tool-card .t-name{font-weight:600;color:var(--paper);font-size:14px;}
+.tool-card .t-why{color:var(--paper-dim);font-size:13px;margin-top:3px;}
+.alt-tools{font-size:12.5px;color:var(--paper-faint);margin-top:4px;font-family:var(--font-mono);}
+
+.prompt-box{
+  background:var(--ink-2);border:1px solid var(--line-strong);border-radius:8px;
+  padding:14px 16px;font-family:var(--font-mono);font-size:12.5px;color:var(--signal);
+  position:relative;margin-bottom:10px;white-space:pre-wrap;line-height:1.6;
+}
+.copy-btn{
+  position:absolute;top:8px;right:8px;background:var(--panel-2);border:1px solid var(--line-strong);
+  color:var(--paper-faint);font-family:var(--font-mono);font-size:10px;padding:4px 8px;border-radius:5px;cursor:pointer;
+}
+.copy-btn:hover{color:var(--amber);border-color:var(--amber);}
+
+.mistake-item{display:flex;gap:8px;margin-bottom:8px;font-size:14px;color:var(--paper-dim);}
+.mistake-item .x{color:var(--risk);flex-shrink:0;}
+
+.notes-area{
+  width:100%;background:var(--ink-2);border:1px solid var(--line-strong);border-radius:8px;
+  color:var(--paper);font-family:var(--font-body);font-size:13.5px;padding:12px;min-height:70px;resize:vertical;
+}
+.notes-area:focus{outline:none;border-color:var(--amber);}
+
+/* ---------- Decision tree ---------- */
+.tree{display:flex;flex-direction:column;gap:0;max-width:720px;margin:0 auto;}
+.tree-q{
+  background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:20px 24px;text-align:center;
+}
+.tree-q p{font-family:var(--font-display);font-size:17px;margin:0 0 14px;}
+.tree-choices{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.tree-choices button{
+  background:var(--panel-2);border:1px solid var(--line-strong);color:var(--paper);
+  padding:9px 16px;border-radius:7px;cursor:pointer;font-size:13.5px;transition:all .15s;
+}
+.tree-choices button:hover{border-color:var(--amber);color:var(--amber);}
+.tree-result{
+  margin-top:16px;padding:18px 22px;border-radius:10px;border:1px solid var(--signal);background:var(--signal-dim);
+  font-size:14.5px;color:var(--paper);display:none;
+}
+.tree-result.risk{border-color:var(--risk);background:rgba(226,100,90,0.1);}
+.tree-connector{width:1px;height:22px;background:var(--line-strong);margin:0 auto;}
+
+/* ---------- Comparison table ---------- */
+.compare-wrap{overflow-x:auto;}
+table.compare{width:100%;border-collapse:collapse;min-width:640px;}
+table.compare th, table.compare td{padding:12px 16px;text-align:left;border-bottom:1px solid var(--line);font-size:13.5px;}
+table.compare th{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;color:var(--amber);letter-spacing:0.05em;border-bottom:1px solid var(--line-strong);}
+table.compare td.tool-col{font-weight:600;}
+table.compare tr:hover td{background:rgba(255,255,255,0.02);}
+.tag{display:inline-block;padding:2px 8px;border-radius:10px;font-size:11px;font-family:var(--font-mono);}
+.tag.free{background:var(--signal-dim);color:var(--signal);}
+.tag.paid{background:var(--amber-dim);color:var(--amber);}
+
+/* ---------- Bookmarks ---------- */
+.bookmark-star{cursor:pointer;background:none;border:none;color:var(--paper-faint);font-size:16px;}
+.bookmark-star.active{color:var(--amber);}
+.bookmarks-panel{position:fixed;bottom:24px;right:24px;z-index:60;}
+.bookmarks-toggle{
+  width:52px;height:52px;border-radius:50%;background:var(--amber);color:#1a1206;border:none;
+  font-size:20px;cursor:pointer;box-shadow:0 6px 20px rgba(232,163,61,0.3);
+}
+.bookmarks-list{
+  display:none;position:absolute;bottom:64px;right:0;width:300px;background:var(--panel);
+  border:1px solid var(--line-strong);border-radius:10px;padding:14px;max-height:340px;overflow-y:auto;
+}
+.bookmarks-list.open{display:block;}
+.bookmarks-list h5{font-family:var(--font-mono);font-size:11px;text-transform:uppercase;color:var(--amber);margin:0 0 10px;}
+.bookmarks-list .bm-item{font-size:13px;padding:8px 0;border-bottom:1px solid var(--line);color:var(--paper-dim);cursor:pointer;}
+.bookmarks-list .bm-item:hover{color:var(--amber);}
+.bookmarks-empty{color:var(--paper-faint);font-size:12.5px;}
+
+/* ---------- Closing sections ---------- */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:22px 24px;}
+.card h4{font-family:var(--font-mono);font-size:11.5px;text-transform:uppercase;letter-spacing:0.08em;color:var(--amber);margin:0 0 14px;}
+.card ul{margin:0;padding-left:18px;color:var(--paper-dim);font-size:14px;}
+.card li{margin-bottom:8px;}
+.chip-row{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{background:var(--panel-2);border:1px solid var(--line-strong);border-radius:16px;padding:5px 12px;font-size:12.5px;color:var(--paper-dim);}
+
+.stack-list{display:flex;flex-direction:column;gap:10px;}
+.stack-item{display:flex;justify-content:space-between;align-items:center;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:10px 14px;}
+.stack-item .role{font-family:var(--font-mono);font-size:11px;color:var(--paper-faint);text-transform:uppercase;}
+.stack-item .name{font-weight:600;font-size:14px;}
+
+footer{
+  text-align:center;padding:50px 28px 70px;color:var(--paper-faint);font-family:var(--font-mono);font-size:12px;
+  border-top:1px solid var(--line);
+}
+
+@media print{
+  .topbar,.bookmarks-panel,.tree-choices,.mark-btn,.btn,.copy-btn{display:none !important;}
+  body{background:#fff;color:#111;}
+  .panel,.card,.stage-detail,.flow-node{border-color:#ccc !important;background:#fff !important;}
+  h1,h2,h3,h4{color:#111 !important;}
+}
+
+@media (max-width:860px){
+  .hero{grid-template-columns:1fr;}
+  .stage-grid{grid-template-columns:1fr;}
+  .stage-block:nth-child(odd){border-right:none;}
+  .grid-2{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span> AI Workflow Architect</div>
+  <div class="topbar-actions">
+    <button class="btn" onclick="window.print()">Print Guide</button>
+    <button class="btn" onclick="resetProgress()">Reset Progress</button>
+    <button class="btn primary" onclick="scrollToId('flow-section')">View Workflow</button>
+  </div>
+</div>
+
+<div class="hero">
+  <div>
+    <div class="eyebrow">Entrepreneurship / Idea Validation / Solo AI Founder</div>
+    <h1 class="display">Validate your AI startup idea <em>before</em> you build it.</h1>
+    <p class="hero-sub">A complete, end-to-end workflow — not a checklist — that takes a raw idea from hypothesis to a defensible go/no-go decision, with the AI tools, prompts, and pitfalls for every stage.</p>
+    <div class="hero-actions">
+      <button class="btn primary" onclick="scrollToId('flow-section')">Start the workflow →</button>
+      <button class="btn" onclick="scrollToId('tree-section')">Take the decision tree</button>
+    </div>
+  </div>
+  <div class="dial-card">
+    <div class="dial-label">Validation progress</div>
+    <div class="dial-wrap">
+      <div>
+        <div class="dial-num" id="dialPercent">0%</div>
+        <div class="dial-status" id="dialStatus">Not started</div>
+      </div>
+      <div class="dial-bar"><div class="dial-fill" id="dialFill"></div></div>
+    </div>
+    <div class="stage-pins" id="stagePins"></div>
+  </div>
+</div>
+
+<section id="flow-section">
+  <div class="section-head">
+    <div class="eyebrow">01 · Workflow Map</div>
+    <h2 class="section-title">Seven stages, planning to execution</h2>
+    <p class="section-desc">Click any stage to open its full playbook — objectives, AI tools, prompts, best practices, and expected outputs. Mark stages complete as you go; your progress is saved locally.</p>
+  </div>
+  <div class="flow-scroll">
+    <div class="flow" id="flowDiagram"></div>
+  </div>
+  <div class="stage-detail" id="stageDetail"></div>
+</section>
+
+<section id="compare-section">
+  <div class="section-head">
+    <div class="eyebrow">02 · Tool Comparison</div>
+    <h2 class="section-title">Which AI tool for which job</h2>
+    <p class="section-desc">A cross-stage comparison of the tools referenced in this workflow, so you can pick a lean stack instead of collecting subscriptions.</p>
+  </div>
+  <div class="compare-wrap">
+    <table class="compare" id="compareTable"></table>
+  </div>
+</section>
+
+<section id="tree-section">
+  <div class="section-head">
+    <div class="eyebrow">03 · Decision Tree</div>
+    <h2 class="section-title">Should you keep going?</h2>
+    <p class="section-desc">A quick gut-check based on real validation signals, not vibes.</p>
+  </div>
+  <div class="tree" id="decisionTree"></div>
+</section>
+
+<section id="summary-section">
+  <div class="section-head">
+    <div class="eyebrow">04 · Wrap-Up</div>
+    <h2 class="section-title">Summary, stack &amp; what's next</h2>
+  </div>
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <h4>Workflow Summary</h4>
+      <ul>
+        <li>Frame a falsifiable hypothesis before touching any AI tool — the workflow exists to test claims, not confirm hopes.</li>
+        <li>Layer evidence: desk research → real conversations → a smoke test → a lightweight prototype. Each stage should raise or lower your confidence measurably.</li>
+        <li>Treat every AI output (market size, persona, survey draft) as a first draft requiring your judgment, not a verdict.</li>
+        <li>Decision point: you need at least one channel with real signal (sign-ups, paid pre-orders, or repeat interview demand) before writing production code.</li>
+        <li>Total realistic timeline for a solo founder working part-time: 2–4 weeks end-to-end.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Recommended AI Stack</h4>
+      <div class="stack-list" id="stackList"></div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-bottom:20px;">
+    <div class="card">
+      <h4>Learning Resources</h4>
+      <ul>
+        <li>"The Mom Test" by Rob Fitzpatrick — customer interview technique</li>
+        <li>"Testing Business Ideas" by Bland &amp; Osterwalder — experiment library</li>
+        <li>Y Combinator's Startup School (free, self-paced)</li>
+        <li>Lenny's Newsletter — validation &amp; PMF case studies</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Communities</h4>
+      <ul>
+        <li>Indie Hackers — build-in-public and validation threads</li>
+        <li>r/startups, r/SaaS — feedback on positioning and pricing</li>
+        <li>ABTalks Claude AI Mastery Challenge — AI-build accountability group</li>
+        <li>Local university entrepreneurship cell / incubator (QUEST or similar)</li>
+      </ul>
+    </div>
+  </div>
+  <div class="grid-2">
+    <div class="card">
+      <h4>Search Keywords</h4>
+      <div class="chip-row">
+        <span class="chip">AI startup idea validation</span>
+        <span class="chip">customer discovery script</span>
+        <span class="chip">smoke test landing page</span>
+        <span class="chip">TAM SAM SOM AI tool</span>
+        <span class="chip">solo founder MVP checklist</span>
+        <span class="chip">pre-seed validation metrics</span>
+      </div>
+    </div>
+    <div class="card">
+      <h4>Future Automation Opportunities</h4>
+      <ul>
+        <li>Auto-summarize interview transcripts into a live insights dashboard</li>
+        <li>Weekly AI digest of competitor changelogs and pricing pages</li>
+        <li>Automated waitlist-to-survey follow-up sequence</li>
+        <li>AI-scored lead qualification for smoke-test sign-ups</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer>
+  AI WORKFLOW ARCHITECT — GENERATED WORKFLOW GUIDE — PROGRESS SAVED LOCALLY IN THIS BROWSER
+</footer>
+
+<div class="bookmarks-panel">
+  <button class="bookmarks-toggle" onclick="toggleBookmarks()">★</button>
+  <div class="bookmarks-list" id="bookmarksList">
+    <h5>Bookmarked Prompts</h5>
+    <div class="bookmarks-empty">No bookmarks yet. Click ☆ next to any prompt.</div>
+  </div>
+</div>
+
+<script>
+/* ================= DATA ================= */
+const stages = [
+  {
+    id:'framing', num:'01', title:'Problem Framing & Hypothesis', time:'2–3 hrs',
+    objectives:['Convert a vague idea into a falsifiable hypothesis','Define target user, problem, and assumed solution in one statement','Identify the riskiest assumption to test first'],
+    tasks:['Write a one-sentence problem hypothesis','List your top 5 assumptions and rank by risk','Draft an "if X then Y" testable claim','Define what evidence would kill the idea'],
+    tools:[
+      {name:'Claude', why:'Best for structured reasoning — turning a fuzzy idea into a testable hypothesis and surfacing hidden assumptions you didn\'t know you were making.'},
+      {name:'ChatGPT', why:'Good alternative for rapid brainstorming of assumption lists and edge cases.'}
+    ],
+    alt:'Alternatives: Notion AI (for structuring the doc), Perplexity (for quick sanity-check research while framing)',
+    prompts:[
+      'I have this startup idea: [describe idea]. Help me turn it into a single falsifiable hypothesis in the form "We believe [user] has [problem] and will [behavior] if we offer [solution]." Then list the 5 riskiest assumptions underlying it, ranked by how likely they are to be wrong and how damaging it would be if they are.',
+      'Play devil\'s advocate on this hypothesis: [paste hypothesis]. What are 3 reasons this idea might already be false, and what evidence would prove or disprove each?'
+    ],
+    best:['Write the hypothesis before any research — otherwise research just confirms bias','Keep it to one sentence; if it needs a paragraph, it\'s not sharp enough','Separate the problem from your assumed solution'],
+    mistakes:['Falling in love with the solution before validating the problem','Making the hypothesis unfalsifiable ("people will love this")','Skipping this stage entirely and jumping to building'],
+    output:'A one-page hypothesis document with ranked assumptions and a kill criterion',
+    tip:'Use Claude in a single thread for this whole stage so it retains context on your assumptions when you move to research prompts.'
+  },
+  {
+    id:'research', num:'02', title:'Market & Competitor Research', time:'4–6 hrs',
+    objectives:['Size the market credibly (TAM/SAM/SOM)','Map direct and indirect competitors','Identify positioning gaps and pricing benchmarks'],
+    tasks:['Run AI-assisted market sizing with cited sources','Build a competitor matrix (features, pricing, reviews)','Read 20–30 negative reviews of top 3 competitors','Summarize gaps and unmet needs'],
+    tools:[
+      {name:'Perplexity', why:'Cites live sources for market data and competitor claims, reducing hallucination risk versus a plain chat model.'},
+      {name:'Claude', why:'Excellent at synthesizing scraped/pasted competitor data into a structured comparison matrix and spotting positioning gaps.'},
+      {name:'G2 / Capterra (with AI summarization)', why:'Real user review data — pair with an AI tool to summarize complaint patterns.'}
+    ],
+    alt:'Alternatives: SparkToro (audience research), SimilarWeb free tier (traffic estimates), Exploding Topics (trend signal)',
+    prompts:[
+      'Research the market for [your product category] targeting [target user]. Give me a TAM/SAM/SOM estimate with sources, 5 direct competitors with their pricing and core feature set, and 3 indirect/substitute solutions people currently use instead.',
+      'Here are 25 negative reviews of [competitor name]: [paste reviews]. Summarize the top 5 recurring complaints, group them by theme, and rank by frequency.'
+    ],
+    best:['Always ask for sources and verify at least 2 independently','Focus more on unmet needs in reviews than on feature lists','Re-run market sizing narrower than you think — niche first'],
+    mistakes:['Trusting AI-generated market size numbers without checking sources','Only looking at competitors\' marketing pages, not real user reviews','Confusing a large market with an accessible market (ignoring SOM)'],
+    output:'Competitor matrix + market sizing memo + list of validated unmet needs',
+    tip:'Batch review-mining: paste reviews in chunks of 20–25 to stay within context limits and keep summaries sharp.'
+  },
+  {
+    id:'discovery', num:'03', title:'Customer Discovery Interviews', time:'1–2 weeks',
+    objectives:['Talk to 8–15 target users about their real behavior, not opinions','Test the problem hypothesis, not the solution','Identify language patterns to use in later marketing'],
+    tasks:['Draft an interview script (Mom Test style)','Recruit interviewees via communities, LinkedIn, cold DMs','Conduct and record 8–15 interviews','Synthesize transcripts into themes'],
+    tools:[
+      {name:'Claude', why:'Strong at drafting Mom-Test-compliant questions (no leading, no hypotheticals) and later synthesizing transcripts into themes with quotes.'},
+      {name:'Otter.ai / Fireflies', why:'Automatic transcription of interview calls so you can focus on listening, not note-taking.'}
+    ],
+    alt:'Alternatives: Grain (video interview clips), Dovetail (research repository) if you scale past 15 interviews',
+    prompts:[
+      'Write me a 12-question customer discovery script for validating this problem: [problem statement], following Mom Test principles — no leading questions, no pitching, focused on past behavior not future intentions.',
+      'Here are 6 interview transcripts: [paste or summarize]. Identify the top 4 recurring themes, pull 1–2 direct quotes per theme, and flag any contradictions to my original hypothesis.'
+    ],
+    best:['Ask about past behavior, never "would you use this?"','Interview until you stop hearing new information (saturation)','Record everything — memory of interviews is unreliable'],
+    mistakes:['Pitching your solution during the interview','Only interviewing friends and family (biased sample)','Treating polite interest as validation'],
+    output:'Synthesized theme document with direct quotes and a revised (or rejected) hypothesis',
+    tip:'Set a hard target of 10 interviews before you\'re allowed to touch the smoke test stage — resist the urge to skip ahead.'
+  },
+  {
+    id:'smoketest', num:'04', title:'Landing Page & Smoke Test', time:'3–5 days',
+    objectives:['Measure real intent, not stated interest','Test messaging and pricing before building anything','Generate an early waitlist / lead list'],
+    tasks:['Write landing page copy from interview language','Build a one-page site with a clear call to action','Drive targeted traffic (ads, communities, cold outreach)','Track conversion rate on sign-up or pre-order'],
+    tools:[
+      {name:'Claude / Claude in Chrome', why:'Drafts conversion-focused landing page copy directly from your interview quotes, and can help build the page itself as a single HTML file.'},
+      {name:'Carrd / Framer', why:'Fast, no-code landing page builders for shipping the smoke test in hours, not days.'}
+    ],
+    alt:'Alternatives: Unbounce (A/B testing built-in), Typeform (waitlist capture with qualifying questions)',
+    prompts:[
+      'Write landing page copy for [product idea] targeting [user]. Use this language from real interviews: [paste key quotes]. Include a headline, subheadline, 3 benefit bullets, and a single clear call-to-action for joining a waitlist.',
+      'Suggest 3 pricing framings I could smoke-test on this landing page for [product], based on what similar tools charge: [competitor pricing]. Include the psychological reasoning for each.'
+    ],
+    best:['Send real traffic — 50+ targeted visitors minimum before judging results','Test one variable at a time (headline, price, CTA)','Ask for a credit card or deposit if you want signal stronger than email'],
+    mistakes:['Declaring success from vanity metrics (page views, not conversions)','Only sharing the page with people who already know you','Skipping a real call-to-action and just "gauging interest"'],
+    output:'Live landing page + conversion rate + waitlist of qualified leads',
+    tip:'A 3–8% visitor-to-signup conversion rate from cold traffic is a reasonable early signal threshold — below 1–2% is a warning sign, not proof of failure.'
+  },
+  {
+    id:'prototype', num:'05', title:'MVP-Lite Prototype & Concept Testing', time:'3–7 days',
+    objectives:['Make the value proposition tangible without full engineering','Get reactions to an actual experience, not a description','Test willingness to pay if possible'],
+    tasks:['Build a clickable prototype or Wizard-of-Oz version','Run 5–8 concept test sessions with target users','Watch for real usage friction, not just verbal feedback','Decide what to keep, cut, or change'],
+    tools:[
+      {name:'Claude (Artifacts) / v0 / Lovable', why:'Generates a working interactive prototype from a plain-language spec in minutes, fast enough to iterate live during feedback sessions.'},
+      {name:'Figma (+ AI plugins)', why:'Best for polished clickable mockups if visual fidelity matters more than interactivity.'}
+    ],
+    alt:'Alternatives: Bubble (no-code functional MVP), manual/Wizard-of-Oz backend (you fulfill requests manually behind the scenes)',
+    prompts:[
+      'Build a single-page interactive prototype for [core feature] that lets a test user simulate [key workflow] end-to-end, using placeholder data. Keep it visually credible but do not build any real backend logic.',
+      'I\'m about to run 6 concept test sessions on this prototype: [describe]. Give me a 5-question observation script focused on where users hesitate, misunderstand, or drop off — not opinions.'
+    ],
+    best:['Watch users use it in real time — don\'t just ask if they like it','Fake the backend if needed (Wizard of Oz) to save build time','Test the riskiest assumption, not the easiest feature to build'],
+    mistakes:['Over-engineering the prototype before any validation exists','Only testing with people who already want to be nice to you','Confusing "cool demo reaction" with real usage intent'],
+    output:'Tested prototype + friction log + prioritized feature list for a real MVP',
+    tip:'Time-box prototype building to under a week — the goal is a learning tool, not a product.'
+  },
+  {
+    id:'decision', num:'06', title:'Data Synthesis & Go/No-Go Decision', time:'1–2 days',
+    objectives:['Combine all evidence into a single decision document','Score the idea against your original kill criteria','Make an explicit go, pivot, or kill decision'],
+    tasks:['Compile evidence from research, interviews, smoke test, prototype','Score each original assumption as validated / invalidated / unclear','Write a go/no-go memo with reasoning','Define the next 30-day plan if "go"'],
+    tools:[
+      {name:'Claude', why:'Best for synthesizing large, mixed-format evidence (notes, transcripts, metrics) into a structured decision memo with an explicit recommendation and reasoning you can interrogate.'},
+      {name:'Notion / Google Sheets', why:'Simple assumption-tracking scorecard to visualize validated vs. invalidated claims at a glance.'}
+    ],
+    alt:'Alternatives: Airtable (structured evidence database), a plain spreadsheet scorecard if you prefer no extra tools',
+    prompts:[
+      'Here is all my validation evidence: [paste research summary, interview themes, smoke test conversion rate, prototype feedback]. My original hypothesis was: [hypothesis]. Score each of my 5 original assumptions as Validated / Invalidated / Unclear with reasoning, and give a Go / Pivot / Kill recommendation with justification.',
+      'Assuming a "Go" decision on [idea], draft a focused 30-day plan covering what to build first, what to intentionally leave out, and what metric would tell me I\'m on track.'
+    ],
+    best:['Write the decision memo even if the answer is uncomfortable','Separate "I want this to work" from what the evidence shows','Set a real re-check date if the decision is "unclear"'],
+    mistakes:['Cherry-picking only the positive signals','Treating a single enthusiastic conversation as proof','Never actually deciding — endlessly "still validating"'],
+    output:'A written go/no-go decision memo with a dated next-step plan',
+    tip:'If more than 2 of your 5 core assumptions are invalidated, that\'s a pivot signal, not a "try harder on marketing" signal.'
+  },
+  {
+    id:'roadmap', num:'07', title:'Roadmap to Build', time:'ongoing',
+    objectives:['Translate a validated idea into a real build plan','Sequence MVP scope realistically for a solo founder','Set up systems to keep collecting evidence post-launch'],
+    tasks:['Define true MVP scope (cut ruthlessly)','Choose a tech stack matched to your current skills','Set 2–4 week build sprints with checkpoints','Plan how you\'ll keep validating after launch'],
+    tools:[
+      {name:'Claude Code / Cursor', why:'Accelerates actual MVP development once validated — pairs well with your existing HTML/JS build habits for fast, self-contained shipping.'},
+      {name:'Linear / Notion', why:'Lightweight sprint planning for a solo founder without process overhead.'}
+    ],
+    alt:'Alternatives: GitHub Projects (free sprint tracking), Trello (simplest Kanban option)',
+    prompts:[
+      'Based on this validated concept: [summary], help me define a true MVP scope — the smallest version that delivers the core validated value. List what to explicitly cut for v1.',
+      'Break this MVP scope into 3 two-week build sprints for a solo developer working part-time, with a checkpoint deliverable at the end of each sprint.'
+    ],
+    best:['Ship the smallest version that tests the core value, not every feature','Keep talking to your waitlist during the build, not just before it','Re-validate pricing once real usage data exists'],
+    mistakes:['Scope creep from "just one more feature before launch"','Building in isolation without user feedback loops','Abandoning the evidence discipline once building starts'],
+    output:'A scoped MVP backlog and a sprint plan ready to execute',
+    tip:'Carry your validation habits into the build phase — treat launch as stage 8 of research, not the finish line.'
+  }
+];
+
+const compareData = [
+  {tool:'Claude', stage:'Framing, Research, Interviews, Synthesis', strength:'Structured reasoning, long-context synthesis, honest pushback', cost:'paid', note:'Free tier'},
+  {tool:'ChatGPT', stage:'Framing, Brainstorming', strength:'Fast ideation and broad general knowledge', cost:'paid', note:'Free tier'},
+  {tool:'Perplexity', stage:'Market Research', strength:'Cited, sourced answers reduce hallucination risk', cost:'paid', note:'Free tier'},
+  {tool:'Otter.ai', stage:'Customer Interviews', strength:'Accurate call transcription and speaker labels', cost:'paid', note:'Free tier'},
+  {tool:'Carrd', stage:'Smoke Test', strength:'Fastest no-code landing page for a single offer', cost:'paid', note:'Free tier'},
+  {tool:'v0 / Lovable', stage:'Prototype', strength:'Generates working interactive UI from plain-language specs', cost:'paid', note:'Free tier'},
+  {tool:'Figma', stage:'Prototype', strength:'High-fidelity clickable mockups', cost:'paid', note:'Free tier'},
+  {tool:'Notion AI', stage:'Synthesis, Roadmap', strength:'Turns messy notes into structured docs in place', cost:'paid', note:'Free tier'},
+];
+
+/* ================= STATE ================= */
+const state = JSON.parse(localStorage.getItem('awa_state') || '{}');
+state.completed = state.completed || {};
+state.notes = state.notes || {};
+state.bookmarks = state.bookmarks || [];
+
+function saveState(){ localStorage.setItem('awa_state', JSON.stringify(state)); }
+
+/* ================= RENDER FLOW ================= */
+const flowEl = document.getElementById('flowDiagram');
+stages.forEach((s,i)=>{
+  const node = document.createElement('div');
+  node.className='flow-node';
+  node.id='node-'+s.id;
+  node.innerHTML = `<div class="fn-num">${s.num}${state.completed[s.id]?' ✓':''}</div><div class="fn-title">${s.title}</div><div class="fn-time">${s.time}</div>`;
+  node.onclick=()=>selectStage(s.id);
+  flowEl.appendChild(node);
+  if(i < stages.length-1){
+    const arrow = document.createElement('div');
+    arrow.className='flow-arrow';
+    arrow.textContent='→';
+    flowEl.appendChild(arrow);
+  }
+});
+
+function selectStage(id){
+  document.querySelectorAll('.flow-node').forEach(n=>n.classList.remove('active'));
+  document.getElementById('node-'+id).classList.add('active');
+  const s = stages.find(x=>x.id===id);
+  renderStageDetail(s);
+  document.getElementById('stageDetail').scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+function renderStageDetail(s){
+  const done = !!state.completed[s.id];
+  const el = document.getElementById('stageDetail');
+  el.innerHTML = `
+    <div class="stage-detail-head">
+      <div>
+        <h3>${s.num} · ${s.title}</h3>
+        <div class="stage-meta">
+          <span>⏱ ${s.time}</span>
+          <span>📋 ${s.tasks.length} tasks</span>
+        </div>
+      </div>
+      <button class="btn mark-btn ${done?'done':''}" id="markBtn">${done?'✓ Completed':'Mark complete'}</button>
+    </div>
+    <div class="stage-grid">
+      <div class="stage-block"><h4>Objectives</h4><ul>${s.objectives.map(o=>`<li>${o}</li>`).join('')}</ul></div>
+      <div class="stage-block"><h4>Tasks</h4><ul>${s.tasks.map(t=>`<li>${t}</li>`).join('')}</ul></div>
+      <div class="stage-block"><h4>Best AI Tools & Why</h4>
+        ${s.tools.map(t=>`<div class="tool-card"><div class="t-name">${t.name}</div><div class="t-why">${t.why}</div></div>`).join('')}
+        <div class="alt-tools">${s.alt}</div>
+      </div>
+      <div class="stage-block"><h4>Prompt Examples</h4>
+        ${s.prompts.map((p,i)=>`<div class="prompt-box">${escapeHtml(p)}<button class="copy-btn" onclick="copyPrompt(this)" data-prompt="${encodeURIComponent(p)}">Copy</button><button class="bookmark-star ${state.bookmarks.includes(p)?'active':''}" style="position:absolute;top:6px;right:60px;" onclick="toggleBookmark(this,'${s.title.replace(/'/g,"")}')" data-prompt="${encodeURIComponent(p)}">★</button></div>`).join('')}
+      </div>
+      <div class="stage-block"><h4>Best Practices</h4><ul>${s.best.map(b=>`<li>${b}</li>`).join('')}</ul></div>
+      <div class="stage-block"><h4>Common Mistakes</h4>${s.mistakes.map(m=>`<div class="mistake-item"><span class="x">✕</span><span>${m}</span></div>`).join('')}</div>
+      <div class="stage-block"><h4>Expected Output</h4><p>${s.output}</p></div>
+      <div class="stage-block"><h4>Efficiency Tip</h4><p>${s.tip}</p></div>
+    </div>
+    <div class="stage-block" style="border-right:none;">
+      <h4>Your Notes</h4>
+      <textarea class="notes-area" placeholder="Jot notes for this stage..." id="notesArea">${state.notes[s.id]||''}</textarea>
+    </div>
+  `;
+  document.getElementById('markBtn').onclick=()=>toggleComplete(s.id);
+  document.getElementById('notesArea').addEventListener('input', (e)=>{
+    state.notes[s.id]=e.target.value; saveState();
+  });
+}
+
+function escapeHtml(str){
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function toggleComplete(id){
+  state.completed[id] = !state.completed[id];
+  saveState();
+  updateDial();
+  const node = document.getElementById('node-'+id);
+  const s = stages.find(x=>x.id===id);
+  node.innerHTML = `<div class="fn-num">${s.num}${state.completed[id]?' ✓':''}</div><div class="fn-title">${s.title}</div><div class="fn-time">${s.time}</div>`;
+  renderStageDetail(s);
+}
+
+function copyPrompt(btn){
+  const text = decodeURIComponent(btn.getAttribute('data-prompt'));
+  navigator.clipboard.writeText(text).then(()=>{
+    btn.textContent='Copied!';
+    setTimeout(()=>btn.textContent='Copy',1400);
+  });
+}
+
+function toggleBookmark(btn, stageTitle){
+  const text = decodeURIComponent(btn.getAttribute('data-prompt'));
+  const idx = state.bookmarks.findIndex(b=> (typeof b==='string'? b===text : b.text===text));
+  if(idx>-1){ state.bookmarks.splice(idx,1); btn.classList.remove('active'); }
+  else{ state.bookmarks.push({text, stage:stageTitle}); btn.classList.add('active'); }
+  saveState();
+  renderBookmarks();
+}
+
+function renderBookmarks(){
+  const list = document.getElementById('bookmarksList');
+  const items = state.bookmarks;
+  if(!items.length){
+    list.innerHTML = `<h5>Bookmarked Prompts</h5><div class="bookmarks-empty">No bookmarks yet. Click ★ next to any prompt.</div>`;
+    return;
+  }
+  list.innerHTML = `<h5>Bookmarked Prompts</h5>` + items.map(b=>{
+    const t = typeof b==='string'? b : b.text;
+    const stage = typeof b==='string'? '' : b.stage;
+    return `<div class="bm-item" onclick="navigator.clipboard.writeText(decodeURIComponent('${encodeURIComponent(t)}'))" title="Click to copy">${stage?`<strong>${stage}</strong><br>`:''}${t.slice(0,80)}${t.length>80?'…':''}</div>`;
+  }).join('');
+}
+
+function toggleBookmarks(){
+  document.getElementById('bookmarksList').classList.toggle('open');
+}
+
+/* ================= DIAL ================= */
+function updateDial(){
+  const total = stages.length;
+  const doneCount = Object.values(state.completed).filter(Boolean).length;
+  const pct = Math.round((doneCount/total)*100);
+  document.getElementById('dialPercent').textContent = pct+'%';
+  document.getElementById('dialFill').style.width = pct+'%';
+  const statusEl = document.getElementById('dialStatus');
+  if(pct===0) statusEl.textContent='Not started';
+  else if(pct<40) statusEl.textContent='Early signal gathering';
+  else if(pct<85) statusEl.textContent='Building evidence';
+  else if(pct<100) statusEl.textContent='Near decision point';
+  else statusEl.textContent='Validation complete';
+
+  const pinsEl = document.getElementById('stagePins');
+  pinsEl.innerHTML = stages.map(s=>`<div class="pin ${state.completed[s.id]?'done':''}" title="${s.title}">${s.num}</div>`).join('');
+}
+
+function resetProgress(){
+  if(!confirm('Reset all progress, notes, and bookmarks?')) return;
+  localStorage.removeItem('awa_state');
+  location.reload();
+}
+
+function scrollToId(id){
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+/* ================= COMPARISON TABLE ================= */
+const compareTable = document.getElementById('compareTable');
+compareTable.innerHTML = `
+  <thead><tr><th>Tool</th><th>Primary Stage(s)</th><th>Strength</th><th>Cost</th></tr></thead>
+  <tbody>
+    ${compareData.map(c=>`<tr><td class="tool-col">${c.tool}</td><td>${c.stage}</td><td>${c.strength}</td><td><span class="tag ${c.cost}">${c.note}</span></td></tr>`).join('')}
+  </tbody>
+`;
+
+/* ================= DECISION TREE ================= */
+const treeSteps = {
+  start:{
+    q:'Have you completed at least 8 real customer discovery interviews?',
+    choices:[
+      {label:'Yes', next:'smoke'},
+      {label:'No', next:'result_no_interviews'}
+    ]
+  },
+  smoke:{
+    q:'Did your smoke test convert above 2–3% from cold or semi-cold traffic?',
+    choices:[
+      {label:'Yes', next:'pay'},
+      {label:'No', next:'result_low_conversion'}
+    ]
+  },
+  pay:{
+    q:'Did anyone show real willingness to pay (deposit, pre-order, explicit budget)?',
+    choices:[
+      {label:'Yes', next:'result_go'},
+      {label:'Not yet', next:'result_pivot_pricing'}
+    ]
+  },
+  result_no_interviews:{result:true, risk:true, text:'Go back to Stage 3 — Customer Discovery. Market research and AI-generated personas are not a substitute for real conversations. Aim for 8–15 interviews before testing a smoke test.'},
+  result_low_conversion:{result:true, risk:true, text:'Weak signal. Before killing the idea, test a different headline, audience, or channel — but if conversion stays under 1–2% after 2–3 iterations, treat that as a strong pivot signal.'},
+  result_pivot_pricing:{result:true, risk:false, text:'Interest exists but monetization is unproven. Re-test with a real price anchor (deposit or pre-order) before committing to a full build — don\'t build on "would pay" without ever seeing "did pay."'},
+  result_go:{result:true, risk:false, text:'Strong composite signal: real interviews, above-benchmark conversion, and demonstrated willingness to pay. Proceed to Stage 6 — write the go decision memo and move into MVP scoping.'}
+};
+let currentTreeStep = 'start';
+function renderTree(){
+  const el = document.getElementById('decisionTree');
+  const step = treeSteps[currentTreeStep];
+  if(step.result){
+    el.innerHTML = `<div class="tree-connector"></div><div class="tree-result ${step.risk?'risk':''}" style="display:block;">${step.text}</div>
+      <div style="text-align:center;margin-top:16px;"><button class="btn" onclick="currentTreeStep='start'; renderTree();">Start over</button></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="tree-q"><p>${step.q}</p><div class="tree-choices">
+    ${step.choices.map(c=>`<button onclick="currentTreeStep='${c.next}'; renderTree();">${c.label}</button>`).join('')}
+  </div></div>`;
+}
+renderTree();
+
+/* ================= STACK LIST ================= */
+document.getElementById('stackList').innerHTML = `
+  <div class="stack-item"><span class="role">Reasoning &amp; synthesis</span><span class="name">Claude</span></div>
+  <div class="stack-item"><span class="role">Sourced research</span><span class="name">Perplexity</span></div>
+  <div class="stack-item"><span class="role">Interview transcription</span><span class="name">Otter.ai</span></div>
+  <div class="stack-item"><span class="role">Landing page</span><span class="name">Carrd</span></div>
+  <div class="stack-item"><span class="role">Prototype</span><span class="name">Claude Artifacts / v0</span></div>
+  <div class="stack-item"><span class="role">Build (post-validation)</span><span class="name">Claude Code</span></div>
+`;
+
+/* ================= INIT ================= */
+updateDial();
+renderBookmarks();
+selectStage(stages[0].id);
+</script>
+</body>
+</html>
